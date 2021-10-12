@@ -12,6 +12,7 @@ from threading import Thread
 from game_engine.Sprite import Sprite;
 from game_engine.GameEngineToolbox import checkType;
 from game_engine.GameObject import GameObject;
+from game_engine.Button import Button;
 
 # Controller for the game engine. Updates and draws the objects on a Pygame window
 '''
@@ -23,8 +24,10 @@ BLACK - tuple - represents the color black
 screen - pygame.surface - the screen we are using to put objects on
 clock - Clock - the pygame clock. We will use this to set delays
 done - boolean - whether the engine is done running yet. Setting this to false will stop the engine
-objects - list[GameObject] (manually enforced) - a list of object for the engine to 
+objects - list[GameObject] (manually enforced) - a list of object for the engine to update and render
+buttons - list[Button] (maually enforced) - a list of the buttons the engine is managing
 tickSpeed - int - analogous to frames per second. (1/wait time inbetween frames)
+mousePressed - boolean - whether the mouse button is currently pressed
 keysPressed - list[boolean] - the keys that are currently pressed down as fetched by pygame.key.get_pressed()
 backgroundColor - tuple - the background color for the screen. Painted before all other objects
 '''
@@ -57,6 +60,8 @@ class ObjectDraw():
         #set up variables
 
         self.objects = []; # create the objects list
+
+        self.buttons = []; # create the buttons list
 
         self.done = True;
 
@@ -96,6 +101,7 @@ class ObjectDraw():
 
     #should only be called by start(), runs the game engine loop
     def run(self):
+        self.mousePressed = False;
         if (True):
             #set keysPressed
             self.keysPressed = pygame.key.get_pressed();
@@ -111,9 +117,13 @@ class ObjectDraw():
                     sys.exit();
                     return;
                 elif event.type == pygame.MOUSEBUTTONDOWN: # when the mouse is clicked
+                    self.mousePressed = True;
                     pass;
-            
-           
+
+                # check events for buttons
+                for button in self.buttons:
+                    button.button.check_event(event);
+                 
             
             #update the objects
             for current_object in self.objects:
@@ -128,13 +138,17 @@ class ObjectDraw():
 
 
             pygame.display.flip(); #push the updates to the display
-            
+            pygame.display.update(); ## MAY NOT NEED THIS
             self.clock.tick(self.tickSpeed); # delay for a bit inbetween frames
 
     # will add the gameObject to the game engine to be run
     def add(self,gameObject):
         assert issubclass(gameObject.__class__, GameObject); # make sure the object we are adding is a child of GameObject
         self.objects.append(gameObject);
+
+        # if this is a button, make sure to add it to the appropriate list
+        if issubclass(gameObject.__class__, Button):
+            self.buttons.append(gameObject);
 
     #returns the keys that the user has pressed
     def getKeysPressed(self):
