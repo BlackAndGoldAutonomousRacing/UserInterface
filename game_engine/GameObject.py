@@ -32,7 +32,8 @@ class GameObject():
         pass;
 
     # this is called by the engine thread and child classes will override this
-    def paint(self):
+    def paint(self,screen):
+        print(self.getName(), "has no overridden paint method");
         pass;
 
 

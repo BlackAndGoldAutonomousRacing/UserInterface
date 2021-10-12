@@ -1,14 +1,11 @@
 
 '''
 ===============================================================================
-ENGR 133 Fa 2020
-
-Assignment Information
-	Assignment:     Final Project
+    Project:        Python Game Engine
 	Author:         Alec Pannunzio, afpannun@purdue.edu
-	Team ID:        LC4-5 
 ===============================================================================
 '''
+
 import pygame
 import sys
 from threading import Thread
