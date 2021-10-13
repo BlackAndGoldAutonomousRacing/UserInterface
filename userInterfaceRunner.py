@@ -117,7 +117,7 @@ buttonsDict = {
 
 createButtons(buttonsDict,objectDraw);
 
-velocityButton = IAC_textBox_Button("set target velocity",objectDraw, screenSizeX*0.5,screenSizeY*0.5,200,70);
+velocityButton = IAC_textBox_Button("set target velocity",objectDraw, screenSizeX*0.5,screenSizeY*0.65,200,70);
 
 objectDraw.add(velocityButton);
 
