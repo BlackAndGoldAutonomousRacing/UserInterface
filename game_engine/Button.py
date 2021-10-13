@@ -25,7 +25,10 @@ default_button_style = {
 
 class Button(Object2D):
 
-    def __init__(self,name,event_func,objectDraw, xPosition, yPosition,xSize,ySize, text=False, style=default_button_style):
+    def event_func(self):
+        self.func_to_call(self.funcParams);
+
+    def __init__(self,name,func_to_call,objectDraw, xPosition, yPosition,xSize,ySize, text=False, style=default_button_style,params=()):
         super(Button,self).__init__(name,xPosition,yPosition,xSize,ySize);
         #checkType(event_func,function.__class__,"event function must be of type function");
         checkType(xPosition,(int,float));
@@ -37,10 +40,14 @@ class Button(Object2D):
         if (not text):
             text = name;
 
+        self.func_to_call = func_to_call;
+        self.funcParams = params;
         self.screen_rect = objectDraw.screen.get_rect()
-        self.button = BT((0, 0, xSize, ySize), (255,0,0), event_func, text=text, **style);
+        self.button = BT((0, 0, xSize, ySize), (255,0,0), self.event_func, text=text, **style);
         
 
+
+  
     def paint(self, screen):
         self.button.rect.center = (self.xPosition, self.yPosition);
         self.button.update(screen);
