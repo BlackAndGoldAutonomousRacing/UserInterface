@@ -82,6 +82,22 @@ objectDraw = ObjectDraw(screenSizeX,screenSizeY);
 
 
 
+'''
+Buttons start red, become green when clicked (toggle)
+
+
+Add text box:
+add button that reads values from text box and sends command with them
+Enter velocity in box and execute that velocity
+display last sent value on button
+
+
+'''
+
+
+
+
+
 
 
 # create buttons and text messages
