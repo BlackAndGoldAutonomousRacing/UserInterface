@@ -105,7 +105,9 @@ class ObjectDraw():
         if (True):
             #set keysPressed
             self.keysPressed = pygame.key.get_pressed();
-
+            
+            self.keyEvents = [];
+            
             # handle pygame events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -119,6 +121,8 @@ class ObjectDraw():
                 elif event.type == pygame.MOUSEBUTTONDOWN: # when the mouse is clicked
                     self.mousePressed = True;
                     pass;
+                elif event.type == pygame.KEYDOWN:
+                    self.keyEvents.append(event);
 
                 # check events for buttons
                 for button in self.buttons:
@@ -153,6 +157,9 @@ class ObjectDraw():
     #returns the keys that the user has pressed
     def getKeysPressed(self):
         return self.keysPressed;
+
+    def getKeyEvents(self):
+        return self.keyEvents;
 
 '''
 ===============================================================================

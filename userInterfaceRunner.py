@@ -1,3 +1,8 @@
+
+
+
+from IAC_Button import IAC_Button
+from IAC_textBox_Button import IAC_textBox_Button
 from game_engine.ObjectDraw import ObjectDraw
 from game_engine.Text import Text
 from game_engine.Button import Button
@@ -26,7 +31,7 @@ def createButtons(buttons, objectDraw):
     i = 0;
     for key in buttons:
         print(buttons[key]);
-        newBtn = Button(key, sendCommand,objectDraw, i * xStep + xStep/2 , screenSizeY-screenSizeY*multFromBtm,xSize=xStep,ySize=screenSizeY*multFromBtm, params=buttons[key]);
+        newBtn = IAC_Button(key, sendCommand,objectDraw, i * xStep + xStep/2 , screenSizeY-screenSizeY*multFromBtm,xSize=xStep,ySize=screenSizeY*multFromBtm, params=buttons[key]);
         objectDraw.add(newBtn);
         i += 1;
 
@@ -111,6 +116,10 @@ buttonsDict = {
 };
 
 createButtons(buttonsDict,objectDraw);
+
+velocityButton = IAC_textBox_Button("set target velocity",objectDraw, screenSizeX*0.5,screenSizeY*0.5,200,70);
+
+objectDraw.add(velocityButton);
 
 
 # topicname, (lower, upper)
