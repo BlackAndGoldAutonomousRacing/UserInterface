@@ -10,7 +10,7 @@ import pygame
 class IAC_textBox_Button(Button):
 
     def __init__(self, name, objectDraw, xPosition, yPosition, xSize, ySize):
-        super().__init__(name, self.buttonPress, objectDraw, xPosition, yPosition, xSize, ySize, color=(255,0,0));
+        super().__init__(name, self.buttonPress, objectDraw, xPosition, yPosition, xSize, ySize, color=(150,0,0));
 
 
         self.objectDraw = objectDraw;
@@ -23,7 +23,7 @@ class IAC_textBox_Button(Button):
         self.enteringVelocity = True;
 
         
-        self.setColor((0,100,30));
+        self.setColor((0,150,0));
         self.velocityCommand = "";
 
         
@@ -38,7 +38,7 @@ class IAC_textBox_Button(Button):
                 elif (keyEvent.key == pygame.K_RETURN):
                     self.enteringVelocity = False;
                     subprocess.run(f"echo 'setVelocity {self.velocityCommand}'",shell=True);
-                    self.setColor((255,0,0));
+                    self.setColor((150,0,0));
                     self.velocityCommand = "";
                     self.text = self.name;  
                     self.updateButtonParams();   

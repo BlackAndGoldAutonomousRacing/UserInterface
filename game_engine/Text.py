@@ -24,7 +24,7 @@ class Text(Object2D):
         self.text = self.font.render(text, True, self.color, self.highLightColor );
         self.textRect = self.text.get_rect()
       
-        self.textRect.center = (self.xPosition, self.yPosition)
+        self.textRect.topleft = (self.xPosition-self.xSize/2, self.yPosition-self.ySize/2);
 
     def paint(self, screen):
         screen.blit(self.text, self.textRect);

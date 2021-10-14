@@ -35,7 +35,7 @@ backgroundColor - tuple - the background color for the screen. Painted before al
 class ObjectDraw():
     
     #initializes the objectdraw
-    def __init__(self,screenSizeX, screenSizeY):
+    def __init__(self,screenSizeX, screenSizeY,frameCaption="Lil' game engine -- programmed by Alec Pannunzio" ):
 
         #make sure types check out and assign screen size class members
         checkType(screenSizeX,int,"screenSizeX must be an int");
@@ -52,7 +52,7 @@ class ObjectDraw():
 
         self.screen = pygame.display.set_mode([screenSizeX, screenSizeY]) # get the screen
 
-        pygame.display.set_caption("Lil' game engine -- programmed by Alec Pannunzio"); #set the title of our display
+        pygame.display.set_caption(frameCaption); #set the title of our display
         
         self.clock = pygame.time.Clock(); # get the clock
 
