@@ -110,9 +110,9 @@ display last sent value on button
 
 # title, command
 buttonsDict = {
-    "CT11": "echo 'command send ct11'",
-    "launch cameras": "ros2 launch cameras'",
-    "launch long control": "echo 'launching auton beep boop'"
+    "CT11": ("echo 'command send ct11'",""),
+    "launch cameras": ("echo 'launch cameras'","echo 'stop cameras'"),
+    "launch long control": ("echo 'long_control set true'","echo 'long_control set false'")
 };
 
 createButtons(buttonsDict,objectDraw);
