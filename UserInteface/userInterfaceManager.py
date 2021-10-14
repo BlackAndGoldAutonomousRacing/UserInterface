@@ -16,7 +16,7 @@ colorGreen = (0,255,0);
 screenSplitText = 0.25;
 screenSplitButton = 0.9;
 
-subFuncs = [];
+
 
 
 def sendCommand(commandStr, shell=True):
@@ -37,37 +37,44 @@ def createButtons(buttons, objectDraw):
 
 
 class TextUpdater():
-    def __init__(self, text, valueRange = (-1000000000000000,10000000000000)):
+    def __init__(self, text, convertMsgToValueFunc, valueRange = (-1000000000000000,10000000000000)):
         self.text = text;
         self.valueRange = valueRange
+        self.convertMsgToValue = convertMsgToValueFunc;
     def subFunction(self,msg):
-        self.text.setText(self.text.name + ": " + str(msg.data));
-        if (float(msg.data) > self.valueRange[0] and float(msg.data) < self.valueRange[1]):
+        value = self.convertMsgToValue(msg);
+        self.text.setText(self.text.name + ": " + str(value));
+        if (float(value) > self.valueRange[0] and float(value) < self.valueRange[1]):
             self.text.setColor(colorGreen);
         else:
             self.text.setColor(colorRed);
 
 
 def createTopicStatuses(topics,objectDraw):
-    yStep = objectDraw.screenSizeY*screenSplitText // (1+len(topics));
 
+    # the list of callback functions for the text objects
+    subFuncs = [];
+
+    # figure out spacing and fontsize
+    yStep = objectDraw.screenSizeY*screenSplitText // (1+len(topics));
     fontSize = 1.0 * yStep;
 
+    # create the text objects
     i = 0;
     for topicName in topics:
         
         text1 = Text(topicName,screenSizeX*0.5-10*fontSize,(5+fontSize) * i + fontSize,fontSize=fontSize,highLightColor=(10,10,10));
-        objectDraw.add(text1);
-
+        objectDraw.add(text1); # add to object draw to be rendered
         
-        textUpdate = TextUpdater(text1, topics[topicName]);
+        # create object to control the color of the text field with the passed function to convert the msg to a value
+        textUpdate = TextUpdater(text1,valueRange=topics[topicName][0], convertMsgToValueFunc=topics[topicName][1]);
 
-        # createsubscription
+        # append the subscription callback function
         subFuncs.append(textUpdate.subFunction);
     
         i += 1;
 
-   
+    return subFuncs;
 
 
 
@@ -119,12 +126,8 @@ def createUI(buttonsDict, textDict):
     objectDraw.add(velocityButton);
 
 
-    
-    createTopicStatuses(textDict,objectDraw);
-
-
-
-
+    # create text fields
+    subFuncs = createTopicStatuses(textDict,objectDraw);
 
 
 
@@ -140,6 +143,9 @@ def createUI(buttonsDict, textDict):
 
 if __name__ == "__main__":
 
+    def msg_to_val(msg):
+        return msg.data;
+
     # title, command
     buttonsDict = {
         "CT11": ("echo 'command send ct11'",""),
@@ -149,12 +155,12 @@ if __name__ == "__main__":
 
     # topicname, (lower, upper)
     textDict = {
-        "novatel/bottom/bestpos" : (10,1000),
-        "raptor_dbw_interface/imu" : (1,100),
-        "raptor_dbw_interface/ctstate": (0,20),
-        "raptor_dbw_interface/wheel_speed_report": (10,11),
-        "raptor_dbw_interface/imu_error": (10,500),
-        "raptor_dbw_interface/gps_covariance": (100,300)
+        "novatel/bottom/bestpos" : ((10,1000),msg_to_val),
+        "raptor_dbw_interface/imu" : ((1,100),msg_to_val),
+        "raptor_dbw_interface/ctstate": ((0,20),msg_to_val),
+        "raptor_dbw_interface/wheel_speed_report": ((10,11),msg_to_val),
+        "raptor_dbw_interface/imu_error": ((10,500),msg_to_val),
+        "raptor_dbw_interface/gps_covariance": ((100,300),msg_to_val)
     }
 
 
