@@ -170,15 +170,18 @@ if __name__ == "__main__":
         def __init__(self,data):
             self.data = data;
 
+    import random
 
     i = 1;
     while(True):
         i+=1;
         
-        msg1 = msg(i%500);
+        
         for fun in subFuncs:
+            msg1 = msg(random.randint(0,100));
             fun(msg1);
+            
 
         objectDraw.run();
-        time.sleep(0.01);
+        time.sleep(0.1);
 
